@@ -1252,9 +1252,9 @@ class _CheckOutState extends State<CheckOut> {
           var data = response['data'];
           String shipapply = data['shipApply'];
           String shipAmount = data['shipAmount'];
-          cashbackamt = data['cashBackRate'];
-          cashbackapply = data['cashBackApply'];
-          cashbackamtmax = data['cashBackMax'];
+          cashbackamt = data['cashBackRate'] ?? '';
+          cashbackapply = data['cashBackApply'] ?? '';
+          cashbackamtmax = data['cashBackMax'] ?? '';
           // int points = 10;
           print('compare ship amount');
           print(totalAmt);
@@ -1331,9 +1331,9 @@ class _CheckOutState extends State<CheckOut> {
           String shipAmount = data['shipAmount'];
           String rewardApply = data['rewardApply'];
           String rewardAmount = data['rewardAmount'];
-          cashbackamt = data['cashBackRate'];
-          cashbackapply = data['cashBackApply'];
-          cashbackamtmax = data['cashBackMax'];
+          cashbackamt = data['cashBackRate'] ?? '';
+          cashbackapply = data['cashBackApply'] ?? '';
+          cashbackamtmax = data['cashBackMax'] ?? '';
           // int points = 10;
           print('compare ship amount');
           print(totalAmt);

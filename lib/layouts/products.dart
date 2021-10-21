@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-import 'package:carousel_pro/carousel_pro.dart';
 import 'package:estore/api/getProduct.dart';
 import 'package:estore/layouts/ProductDetails.dart';
 import 'package:estore/layouts/size_config.dart';
 import 'package:estore/model/Product.dart';
+import 'package:estore/style/textstyle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:estore/style/textstyle.dart';
+
 const kPrimaryColor = Color(0xFFFF7643);
 const kPrimaryLightColor = Color(0xFFFFECDF);
 const kPrimaryGradientColor = LinearGradient(
@@ -52,47 +52,42 @@ class _ProductsState extends State<Products> {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       padding: EdgeInsets.all(5.0),
-      child:
-      product.length==0 ? FutureBuilder<List<Product>>(
-          future: getProduct(widget.cat_index),
-          builder: (context,snapshot){
-            if(snapshot.connectionState == ConnectionState.waiting){
-              return SpinKitThreeBounce(
-                color: Colors.amber,
-                size: 20,
-              );
-            }
-            if(snapshot.hasData){
-              product = snapshot.data!;
-              return productList();
-            }
-             return SizedBox
-                .shrink();
-            },
-        ) : productList(),
-
-      );
-
-
+      child: product.length == 0
+          ? FutureBuilder<List<Product>>(
+              future: getProduct(widget.cat_index),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return SpinKitThreeBounce(
+                    color: Colors.amber,
+                    size: 20,
+                  );
+                }
+                if (snapshot.hasData) {
+                  product = snapshot.data!;
+                  return productList();
+                }
+                return SizedBox.shrink();
+              },
+            )
+          : productList(),
+    );
   }
 
   GridView productList() {
     return GridView.builder(
         itemCount: product.length,
         gridDelegate:
-        new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-
+            new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
         itemBuilder: (BuildContext context, int index) {
           var thumb = jsonDecode(product[index].thumb);
           String thumbImg = thumb[0];
           int offer = 0;
           String mrp = product[index].rate;
-          if(product[index].offer!='0'){
+          if (product[index].offer != '0') {
             offer = int.parse(product[index].offer);
-            double offRate = (offer/100)*int.parse(mrp);
+            double offRate = (offer / 100) * int.parse(mrp);
             mrp = offRate.toStringAsFixed(0);
           }
           return Single_prod(
@@ -100,16 +95,13 @@ class _ProductsState extends State<Products> {
             prod_pricture: thumb[0],
             prod_old_price: product[index].rate,
             prod_price: mrp,
-            prod_index:index,
+            prod_index: index,
             product: product,
             prod_offer: offer,
             isfav: false,
             ispop: false,
           );
-
         });
-
-
   }
 }
 
@@ -129,12 +121,11 @@ class Single_prod extends StatelessWidget {
     this.prod_pricture,
     this.prod_old_price,
     this.prod_price,
-     required this.prod_index,
-  required this.product,
-     required this.prod_offer,
-     required this.isfav,
-     required this.ispop,
-
+    required this.prod_index,
+    required this.product,
+    required this.prod_offer,
+    required this.isfav,
+    required this.ispop,
   });
 
   @override
@@ -143,19 +134,23 @@ class Single_prod extends StatelessWidget {
     // String thumbImg = thumb[0];
     int offer = 0;
     String mrp = prod_price;
-    if(prod_offer!='0'){
+    if (prod_offer != '0') {
       offer = prod_offer;
-      double offRate = (offer/100)*int.parse(mrp);
+      double offRate = (offer / 100) * int.parse(mrp);
       mrp = offRate.toStringAsFixed(0);
     }
     return Padding(
-
-      padding: EdgeInsets.only(left: getProportionateScreenWidth(0),top: getProportionateScreenWidth(5),bottom: getProportionateScreenWidth(5),right: 0.0 ),
+      padding: EdgeInsets.only(
+          left: getProportionateScreenWidth(0),
+          top: getProportionateScreenWidth(5),
+          bottom: getProportionateScreenWidth(5),
+          right: 0.0),
       child: InkWell(
-        onTap: (){
-          Navigator.push(context, MaterialPageRoute(
-              builder: (context) => ProductDetails(product[prod_index])
-          ));
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ProductDetails(product[prod_index])));
         },
         child: Card(
           //width: getProportionateScreenWidth(140),
@@ -163,14 +158,13 @@ class Single_prod extends StatelessWidget {
 
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-
             children: [
               Expanded(
                 child: AspectRatio(
                   aspectRatio: 1.02,
-                child:
-                // Center(
-                 Container(
+                  child:
+                      // Center(
+                      Container(
                     padding: EdgeInsets.all(getProportionateScreenWidth(10)),
                     // decoration: BoxDecoration(
                     //  color: kSecondaryColor.withOpacity(0.1),
@@ -178,35 +172,45 @@ class Single_prod extends StatelessWidget {
                     //  // borderRadius: BorderRadius.circular(15),
                     // ),
                     child: Center(
-                      child: Image.network(
-                          prod_pricture),
+                      child: Image.network(prod_pricture),
                     ),
                   ),
-                //),
+                  //),
                 ),
               ),
-               //SizedBox(height: 10),
+              //SizedBox(height: 10),
               Padding(
                 padding: EdgeInsets.all(10.0),
                 child: Text(
                   prod_name,
                   style: TextStyle(color: Colors.black),
                   maxLines: 2,
-                ) ,
+                ),
               ),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                   Padding(
-                    padding: EdgeInsets.only(left: 10.0,top: 5.0,bottom: 5.0,right: 10.0),
-                   child :Text('\u20B9'+mrp+' ', style: mainStyle.text18Rate,),
-                   ),
-                      if(offer>0)
-                        Padding(
-                          padding: EdgeInsets.only(left: 10.0,top: 5.0,bottom: 5.0,right: 10.0),
-                          child :Text(' \u20B9'+prod_price, style: TextStyle(color: mainStyle.textColor,fontSize: 12,decoration: TextDecoration.lineThrough),),
-   ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: 10.0, top: 5.0, bottom: 5.0, right: 10.0),
+                    child: Text(
+                      '\u20B9' + mrp + ' ',
+                      style: mainStyle.text18Rate,
+                    ),
+                  ),
+                  if (offer > 0)
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: 10.0, top: 5.0, bottom: 5.0, right: 10.0),
+                      child: Text(
+                        ' \u20B9' + prod_price,
+                        style: TextStyle(
+                            color: mainStyle.textColor,
+                            fontSize: 12,
+                            decoration: TextDecoration.lineThrough),
+                      ),
+                    ),
                   // InkWell(
                   //   borderRadius: BorderRadius.circular(50),
                   //   onTap: () {
