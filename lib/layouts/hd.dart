@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:estore/api/getSetting.dart';
 import 'package:estore/functions/UserData.dart';
+import 'package:estore/style/textstyle.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
@@ -14,7 +15,6 @@ import 'Login.dart';
 import 'OrderHistory.dart';
 import 'Profile.dart';
 import 'dashBoard.dart';
-import 'package:estore/style/textstyle.dart';
 
 class HomeDashboard extends StatefulWidget {
   @override
@@ -23,7 +23,7 @@ class HomeDashboard extends StatefulWidget {
 
 class _HomeDashboardState extends State<HomeDashboard> {
   String cCount = '0';
-   late Timer timer;
+  late Timer timer;
   bool menuExpanded = false;
   bool login = false;
   bool checksubscription = true;
@@ -31,7 +31,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
   String uname = "";
   String uemail = "";
 
-   late PageController _pageController;
+  late PageController _pageController;
   late VideoPlayerController _controller;
   int pos = 0;
 
@@ -48,26 +48,27 @@ class _HomeDashboardState extends State<HomeDashboard> {
     Cart(),
   ];
 
-  _getCount(){
-    cartCount().then((value){
+  _getCount() {
+    cartCount().then((value) {
       String cc = '0';
-      if(value>0) {
+      if (value > 0) {
         cc = value.toString();
         if (value > 9) {
           cc = '9+';
         }
       }
-      if(cc!=cCount){
+      if (cc != cCount) {
         setState(() {
           cCount = cc;
         });
       }
     });
   }
-  _logout(){
-    removeData("USER").then((value){
-      removeData("USER_DATA").then((value){
-        removeData("SHIPPING_ADDRESS").then((value){
+
+  _logout() {
+    removeData("USER").then((value) {
+      removeData("USER_DATA").then((value) {
+        removeData("SHIPPING_ADDRESS").then((value) {
           setState(() {
             menuExpanded = false;
             login = false;
@@ -88,7 +89,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
     //didChangeAppLifecycleState(state);
     _refreshContent();
     _pageController = PageController(initialPage: _pageIndex);
-    checkData("USER").then((value){
+    checkData("USER").then((value) {
       getData("USER_DATA").then((value) {
         String uid = "";
         if (value != null) {
@@ -96,20 +97,18 @@ class _HomeDashboardState extends State<HomeDashboard> {
           uid = data['id'];
           uname = data['name'];
           uemail = data['email'];
-
         }
       });
-      if(value){
+      if (value) {
         setState(() {
           login = true;
-
         });
       }
     });
     _getCount();
     timer = Timer.periodic(Duration(seconds: 3), (Timer t) => _getCount());
-
   }
+
   void _refreshContent() {
     //setState(() {
 
@@ -141,24 +140,18 @@ class _HomeDashboardState extends State<HomeDashboard> {
 
     _pageController.dispose();
     super.dispose();
-    timer?.cancel();
+    timer.cancel();
   }
 
-  Widget loadpage()
-  {
-
-    if(checksubscription)
-    {
+  Widget loadpage() {
+    if (checksubscription) {
       //return launchproduct();
       return dashBoard();
-
-    }
-    else
-    {
+    } else {
       return BlockPage();
     }
-
   }
+
   @override
   Widget build(BuildContext context) {
     AppBar appBar = AppBar(
@@ -167,7 +160,10 @@ class _HomeDashboardState extends State<HomeDashboard> {
       //backgroundColor:Colors.pinkAccent,
       title: Row(
         children: [
-          Text('E-Store',style: mainStyle.text20White,),
+          Text(
+            'E-Store',
+            style: mainStyle.text20White,
+          ),
           Expanded(
             child: Container(
               margin: EdgeInsets.only(right: 2.0),
@@ -188,10 +184,9 @@ class _HomeDashboardState extends State<HomeDashboard> {
             ),
           ),
           GestureDetector(
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => Cart()
-              ));
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Cart()));
             },
             child: Stack(
               children: [
@@ -200,14 +195,21 @@ class _HomeDashboardState extends State<HomeDashboard> {
                   color: Colors.white,
                   size: 25,
                 ),
-                if(cCount!='0') Container(
-                    width: 15.0,
-                    height: 15.0,
-                    decoration: BoxDecoration(
-                        color: Colors.amber[600],
-                        borderRadius: BorderRadius.circular(15)
-                    ),
-                    child: Center(child: Text(cCount,style: TextStyle(color: Colors.white,fontSize: 10.0,fontFamily: 'Arial'),)))
+                if (cCount != '0')
+                  Container(
+                      width: 15.0,
+                      height: 15.0,
+                      decoration: BoxDecoration(
+                          color: Colors.amber[600],
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Center(
+                          child: Text(
+                        cCount,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 10.0,
+                            fontFamily: 'Arial'),
+                      )))
               ],
             ),
           ),
@@ -255,8 +257,10 @@ class _HomeDashboardState extends State<HomeDashboard> {
       backgroundColor: mainStyle.mainColor,
       title: Row(
         children: [
-          Text('E-Store',style: mainStyle.text20White,),
-
+          Text(
+            'E-Store',
+            style: mainStyle.text20White,
+          ),
         ],
       ),
     );
@@ -266,9 +270,9 @@ class _HomeDashboardState extends State<HomeDashboard> {
           child: new ListView(
             children: <Widget>[
               InkWell(
-                onTap: (){
-                  checkData("USER").then((value){
-                    if(value){
+                onTap: () {
+                  checkData("USER").then((value) {
+                    if (value) {
                       setState(() {
                         login = true;
                         //menuExpanded = !menuExpanded;
@@ -279,7 +283,6 @@ class _HomeDashboardState extends State<HomeDashboard> {
                       //     builder: (context) => Login(false)
                       // ));
                       _navigateAndDisplaySelection(context);
-
                     }
                   });
                   // if(!login) {
@@ -289,70 +292,98 @@ class _HomeDashboardState extends State<HomeDashboard> {
                   //   ));
                   //   //Navigator.pop(context);
                   // }
-
                 },
                 child: new UserAccountsDrawerHeader(
-                  accountName: (login) ? Text(uname,style: TextStyle(color: Colors.black),) :
-                  Text('Guest user',style: TextStyle(color: Colors.black),)  ,
-                  accountEmail:  (login) ? Text(uemail,style: TextStyle(color: Colors.black),) :
-                  Text('Login',style: TextStyle(color: Colors.black),),
+                  accountName: (login)
+                      ? Text(
+                          uname,
+                          style: TextStyle(color: Colors.black),
+                        )
+                      : Text(
+                          'Guest user',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                  accountEmail: (login)
+                      ? Text(
+                          uemail,
+                          style: TextStyle(color: Colors.black),
+                        )
+                      : Text(
+                          'Login',
+                          style: TextStyle(color: Colors.black),
+                        ),
                   currentAccountPicture: GestureDetector(
                     child: new CircleAvatar(
                       backgroundColor: Colors.white,
-                      child: Icon(Icons.person, color: Colors.black,),
+                      child: Icon(
+                        Icons.person,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
-                  decoration: new BoxDecoration(
-                      color: Colors.amberAccent
-                  ),
+                  decoration: new BoxDecoration(color: Colors.amberAccent),
                 ),
               ),
               //body
               InkWell(
-                onTap: (){
+                onTap: () {
                   Navigator.pop(context);
-                  },
+                },
                 child: ListTile(
                   title: Text('Home'),
-                  leading: Icon(Icons.home,color: Colors.amber,),
+                  leading: Icon(
+                    Icons.home,
+                    color: Colors.amber,
+                  ),
                 ),
               ),
 
               (login)
-                  ?
-              InkWell(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => Profile()
-                  ));
-                },
-                child: ListTile(
-                  title: Text('My account'),
-                  leading: Icon(Icons.person,color: Colors.purple,),
-                ),
-              )
+                  ? InkWell(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Profile()));
+                      },
+                      child: ListTile(
+                        title: Text('My account'),
+                        leading: Icon(
+                          Icons.person,
+                          color: Colors.purple,
+                        ),
+                      ),
+                    )
                   : Container(),
               (login)
-                  ?
+                  ? InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => OrderHistory()));
+                      },
+                      child: ListTile(
+                        title: Text('My Orders'),
+                        leading: Icon(
+                          Icons.shopping_basket,
+                          color: Colors.blue,
+                        ),
+                      ),
+                    )
+                  : Container(),
               InkWell(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => OrderHistory()));
-                },
-                child: ListTile(
-                  title: Text('My Orders'),
-                  leading: Icon(Icons.shopping_basket,color: Colors.blue,),
-                ),
-              ) : Container(),
-              InkWell(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => HomePage('1'),
-                  ));
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HomePage('1'),
+                      ));
                 },
                 child: ListTile(
                   title: Text('Categories'),
-                  leading: Icon(Icons.dashboard,color: Colors.orange,),
+                  leading: Icon(
+                    Icons.dashboard,
+                    color: Colors.orange,
+                  ),
                 ),
               ),
 
@@ -367,15 +398,18 @@ class _HomeDashboardState extends State<HomeDashboard> {
               Divider(),
 
               InkWell(
-                onTap: (){},
+                onTap: () {},
                 child: ListTile(
                   title: Text('Settings'),
-                  leading: Icon(Icons.settings, color: Colors.blue,),
+                  leading: Icon(
+                    Icons.settings,
+                    color: Colors.blue,
+                  ),
                 ),
               ),
 
               InkWell(
-                onTap: (){},
+                onTap: () {},
                 child: ListTile(
                   title: Text('About'),
                   leading: Icon(Icons.help, color: Colors.green),
@@ -383,16 +417,17 @@ class _HomeDashboardState extends State<HomeDashboard> {
               ),
               Divider(),
               (login)
-                  ?
-              InkWell(
-                onTap: (){
-                  _logout();
-                },
-                child: ListTile(
-                  title: Text('Logout'),
-                  leading: Icon(Icons.exit_to_app, color: Colors.redAccent),
-                ),
-              ) : Container(),
+                  ? InkWell(
+                      onTap: () {
+                        _logout();
+                      },
+                      child: ListTile(
+                        title: Text('Logout'),
+                        leading:
+                            Icon(Icons.exit_to_app, color: Colors.redAccent),
+                      ),
+                    )
+                  : Container(),
             ],
           ),
         ),
@@ -455,53 +490,66 @@ class _HomeDashboardState extends State<HomeDashboard> {
         //   onPageChanged: onPageChanged,
         //   controller: _pageController,
         // ),
-        body:
-
-        GestureDetector(
-            onTap: (){
+        body: GestureDetector(
+            onTap: () {
               setState(() {
-                if (menuExpanded)
-                  menuExpanded = !menuExpanded;
+                if (menuExpanded) menuExpanded = !menuExpanded;
                 print("Tapped");
               });
-
             },
             // child: checksubscription ? launchproduct() : BlockPage()),
             child: checksubscription ? dashBoard() : BlockPage()),
-
         floatingActionButton: Visibility(
-
           visible: menuExpanded,
           child: Container(
-
-            margin: EdgeInsets.fromLTRB(0,appBar.preferredSize.height+MediaQuery.of(context).padding.top+12, 0, 0),
+            margin: EdgeInsets.fromLTRB(
+                0,
+                appBar.preferredSize.height +
+                    MediaQuery.of(context).padding.top +
+                    12,
+                0,
+                0),
             child: Column(
               children: [
                 FloatingActionButton(
                   backgroundColor: mainStyle.mainColor,
-                  child: Icon(Icons.person,size: 23.0,),
+                  child: Icon(
+                    Icons.person,
+                    size: 23.0,
+                  ),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => Profile()
-                    ));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Profile()));
                   },
                   heroTag: null,
                 ),
-                SizedBox(height: 5.0,),
+                SizedBox(
+                  height: 5.0,
+                ),
                 FloatingActionButton(
                   backgroundColor: mainStyle.mainColor,
-                  child: Icon(Icons.list,size: 23.0,),
+                  child: Icon(
+                    Icons.list,
+                    size: 23.0,
+                  ),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => OrderHistory()
-                    ));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => OrderHistory()));
                   },
                   heroTag: null,
                 ),
-                SizedBox(height: 5.0,),
+                SizedBox(
+                  height: 5.0,
+                ),
                 FloatingActionButton(
                   backgroundColor: mainStyle.mainColor,
-                  child: Icon(Icons.exit_to_app,size: 23.0,color: mainStyle.secColor,),
+                  child: Icon(
+                    Icons.exit_to_app,
+                    size: 23.0,
+                    color: mainStyle.secColor,
+                  ),
                   onPressed: () {
                     _logout();
                   },
@@ -510,8 +558,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
               ],
             ),
           ),
-        )
-    );
+        ));
   }
 
   _navigateAndDisplaySelection(BuildContext context) async {
@@ -529,10 +576,8 @@ class _HomeDashboardState extends State<HomeDashboard> {
     String log = "$result";
     print("result is");
     print(log);
-    if(log == "TRUE")
-    {
-
-      checkData("USER").then((value){
+    if (log == "TRUE") {
+      checkData("USER").then((value) {
         getData("USER_DATA").then((value) {
           String uid = "";
           if (value != null) {
@@ -540,18 +585,17 @@ class _HomeDashboardState extends State<HomeDashboard> {
             uid = data['id'];
             uname = data['name'];
             uemail = data['email'];
-
           }
         });
-        if(value){
+        if (value) {
           setState(() {
             login = true;
-
           });
         }
       });
     }
   }
+
   void onPageChanged(int page) {
     setState(() {
       this._pageIndex = page;
@@ -559,7 +603,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
   }
 
   void onTabTapped(int index) {
-    this._pageController.animateToPage(index,duration: const Duration(milliseconds: 500),curve: Curves.easeInOut);
+    this._pageController.animateToPage(index,
+        duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
   }
-
 }

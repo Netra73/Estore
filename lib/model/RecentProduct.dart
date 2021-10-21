@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class RecentProduct{
+class RecentProduct {
   final String id;
   final String sizeId;
   final String title;
@@ -10,11 +10,14 @@ class RecentProduct{
   final String thumb;
   final bool isFavourite, isPopular;
 
-  RecentProduct({
-    required this.id, required this.sizeId,  required this.title, required this.size,  @required required this.rate,
-    required this.offer,  required this.thumb,
-    this.isFavourite = false,
-    this.isPopular = false
-  });
-
+  RecentProduct(
+      {required this.id,
+      required this.sizeId,
+      required this.title,
+      required this.size,
+      required this.rate,
+      required this.offer,
+      required this.thumb,
+      this.isFavourite = false,
+      this.isPopular = false});
 }

@@ -1,40 +1,33 @@
-
 import 'package:flutter/material.dart';
 
 class SizeConfig {
-  static MediaQueryData _mediaQueryData;
-  static double screenWidth;
-   static double screenHeight;
-  static double defaultSize;
-  static Orientation orientation;
-   static double standardWidth = 375.0;
-   static double standardHeight = 815.0;
-
+  static MediaQueryData? _mediaQueryData;
+  static double? screenWidth;
+  static double? screenHeight;
+  // static double defaultSize;
+  // static Orientation orientation;
+  static double standardWidth = 375.0;
+  static double standardHeight = 815.0;
 
   void init(BuildContext context) {
     _mediaQueryData = MediaQuery.of(context);
 
-    screenWidth = _mediaQueryData.size.width;
+    screenWidth = _mediaQueryData!.size.width;
+    screenHeight = _mediaQueryData!.size.height;
     print("see screen width");
     print(screenWidth);
 
-
-
-    if (screenWidth > standardWidth) {
+    if (screenWidth! > standardWidth) {
       screenWidth = standardWidth;
+    } else {
+      screenWidth = _mediaQueryData!.size.width;
     }
-    else
-      {
-        screenWidth = _mediaQueryData.size.width;
-      }
-    if (screenHeight > standardHeight) {
+    if (screenHeight! > standardHeight) {
       screenHeight = standardHeight;
+    } else {
+      screenHeight = _mediaQueryData!.size.height;
     }
-    else
-      {
-        screenHeight = _mediaQueryData.size.height;
-      }
-    orientation = _mediaQueryData.orientation;
+    // orientation = _mediaQueryData.orientation;
   }
 }
 
