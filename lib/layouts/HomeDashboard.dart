@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:estore/api/getCart.dart';
 import 'package:estore/functions/UserData.dart';
@@ -35,20 +36,12 @@ class _HomeDashboardState extends State<HomeDashboard> with RouteAware {
   bool checksubscription = true;
   String uname = "";
   String uemail = "";
-String cartString ='';
   late List<Category> category;
-
 
   @override
   void initState() {
     _refreshCartCount();
-    getCart().then((value){
-        if(value!=null){
-          cartString = value;
-          print(value);
-        }
 
-    });
     super.initState();
   }
 
@@ -58,14 +51,16 @@ String cartString ='';
     routeObserver.subscribe(this, ModalRoute.of(context) as PageRoute);
   }
 
-
-  void _refreshCartCount() {
-    getCartProduct(cartString).then((value){
+  Future<void> _refreshCartCount() async {
+    try {
+      final cartString = await getCart();
+      final cartProducts = await getCartProduct(cartString!);
       setState(() {
-        cCount=value.length;
+        cCount = cartProducts.length;
       });
-    });
-
+    } catch (err) {
+      log('Error _refreshCartCount', error: err);
+    }
   }
 
   @override
@@ -316,13 +311,13 @@ String cartString ='';
                       width: 15.0,
                       height: 15.0,
                       decoration: BoxDecoration(
-                          color: Colors.amber[600],
+                          color: Colors.amber[400],
                           borderRadius: BorderRadius.circular(15)),
                       child: Center(
                           child: Text(
                         '$cCount',
                         style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.black,
                             fontSize: 10.0,
                             fontFamily: 'Arial'),
                       )))
