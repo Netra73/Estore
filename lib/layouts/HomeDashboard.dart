@@ -1,11 +1,13 @@
 import 'dart:convert';
 
+import 'package:estore/api/getCart.dart';
 import 'package:estore/functions/UserData.dart';
 import 'package:estore/layouts/LoyalityPage.dart';
 import 'package:estore/layouts/OffersPage.dart';
 import 'package:estore/layouts/VideosPage.dart';
 import 'package:estore/main.dart';
 import 'package:estore/model/Category.dart';
+import 'package:estore/model/Product.dart';
 import 'package:estore/style/textstyle.dart';
 import 'package:flutter/material.dart';
 
@@ -22,6 +24,8 @@ class HomeDashboard extends StatefulWidget {
 }
 
 class _HomeDashboardState extends State<HomeDashboard> with RouteAware {
+  List<Product> product = [];
+
   int _selectedIndex = 0;
   String catId = "1";
 
@@ -31,11 +35,20 @@ class _HomeDashboardState extends State<HomeDashboard> with RouteAware {
   bool checksubscription = true;
   String uname = "";
   String uemail = "";
-
+String cartString ='';
   late List<Category> category;
+
+
   @override
   void initState() {
     _refreshCartCount();
+    getCart().then((value){
+        if(value!=null){
+          cartString = value;
+          print(value);
+        }
+
+    });
     super.initState();
   }
 
@@ -45,8 +58,14 @@ class _HomeDashboardState extends State<HomeDashboard> with RouteAware {
     routeObserver.subscribe(this, ModalRoute.of(context) as PageRoute);
   }
 
+
   void _refreshCartCount() {
-    //TODO Call cart products count and set it to cCount
+    getCartProduct(cartString).then((value){
+      setState(() {
+        cCount=value.length;
+      });
+    });
+
   }
 
   @override
