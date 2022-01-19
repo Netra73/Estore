@@ -798,7 +798,7 @@ class _CheckOutState extends State<CheckOut> {
                                   Expanded(
                                       child: Container(
                                           child: Text(
-                                    'Total Amount : ',
+                                      'Total Amount : ',
                                     style: mainStyle.text20,
                                   ))),
                                   Container(
@@ -814,7 +814,7 @@ class _CheckOutState extends State<CheckOut> {
                                 height: 1.0,
                               ),
                               //if(loyalty_points>=0)
-                              if (blncPnts >= rwdAply)
+                              /*if (blncPnts >= rwdAply)
                                 Row(
                                   children: [
                                     Expanded(
@@ -830,7 +830,8 @@ class _CheckOutState extends State<CheckOut> {
                                         child: Text(
                                       "USE",
                                       style: mainStyle.promotext14,
-                                    )),
+                                    ),
+                                    ),
                                     //if(blncPnts ==rwdAply)
                                     Container(
                                         child: Checkbox(
@@ -846,9 +847,9 @@ class _CheckOutState extends State<CheckOut> {
                                       width: 1.0,
                                     )
                                   ],
-                                ),
+                                ),*/
                               // if(blncPnts == rwdAply)
-                              if (blncPnts >= rwdAply)
+                             /* if (blncPnts >= rwdAply)
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -861,9 +862,9 @@ class _CheckOutState extends State<CheckOut> {
                                           fontStyle: FontStyle.italic),
                                     ),
                                   ],
-                                ),
+                                ),*/
                               // if(blncPnts == rwdAply)
-                              if (blncPnts >= rwdAply)
+                              /*if (blncPnts >= rwdAply)
                                 Row(
                                   children: [
                                     Expanded(
@@ -878,11 +879,11 @@ class _CheckOutState extends State<CheckOut> {
                                           fontStyle: FontStyle.italic),
                                     ))),
                                   ],
-                                ),
+                                ),*/
                               SizedBox(
                                 height: 5.0,
                               ),
-                              if (_value)
+                             /* if (_value)
                                 Row(
                                   children: [
                                     Expanded(
@@ -900,11 +901,11 @@ class _CheckOutState extends State<CheckOut> {
                                       width: 10.0,
                                     )
                                   ],
-                                ),
+                                ),*/
                               SizedBox(
                                 height: 5.0,
                               ),
-                              if (_value)
+                              /*if (_value)
                                 Row(
                                   children: [
                                     Expanded(
@@ -923,7 +924,7 @@ class _CheckOutState extends State<CheckOut> {
                                       width: 10.0,
                                     )
                                   ],
-                                ),
+                                ),*/
                             ],
                           ),
                         ),
@@ -1343,11 +1344,13 @@ class _CheckOutState extends State<CheckOut> {
             if (totalAmt < int.parse(shipapply)) {
               shipAmt = int.parse(shipAmount);
               rwdAmt = int.parse(rewardAmount);
-              grandTotalPayable = totalAmt + shipAmt - rwdAmt;
+              //grandTotalPayable = totalAmt + shipAmt - rwdAmt;
+              grandTotalPayable = totalAmt + shipAmt;
               print(totalAmt);
             } else {
               shipAmt = 0;
-              grandTotalPayable = totalAmt + shipAmt - rwdAmt;
+             // grandTotalPayable = totalAmt + shipAmt - rwdAmt;
+              grandTotalPayable = totalAmt + shipAmt;
             }
             if (grandTotalPayable < 0) {
               grandTotalPayable = 0;

@@ -43,6 +43,7 @@ dependencies:
   video_player: ^ 2.2.5
   video_thumbnail: ^0.4.3
   path_provider: ^2.0.5
+  contact_picker: ^0.0.2
  #better_player: ^0.0.48
   #chewie: ^1.2.2
 

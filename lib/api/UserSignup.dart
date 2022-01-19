@@ -24,6 +24,7 @@ Future<String?> UserSignup(UserForm userForm) async {
   httpClient.close();
   if(response.statusCode==200) {
     String reply = await response.transform(utf8.decoder).join();
+    print(reply);
     return reply;
   }
 

@@ -198,10 +198,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 style: mainStyle.text16,
                               )),
                           Text(
-                            data["totalAmount"] +
-                                ".0 (" +
-                                data["totalItems"] +
-                                " item) ",
+                            data["totalAmount"] + ".0 (" + data["totalItems"] + " item) ",
                             style: mainStyle.text16,
                           ),
                         ],

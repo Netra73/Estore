@@ -26,7 +26,10 @@ Future<List<Category>> getCategory() async {
       String title = details['title'];
       String icon = details['icon'];
       cList.add(Category(id,title,icon));
+      print(cList);
+      print(cList);
     }
   }
   return cList;
+
 }

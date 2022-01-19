@@ -52,11 +52,13 @@ Future<List> getSliderImage() async {
   request.headers.set('Authorization','e10adc3949ba59abbe56e057f20f883e');
   print("see reply for slider");
   HttpClientResponse response = await request.close();
+  print(response);
   httpClient.close();
   List<String> sList = [];
   if(response.statusCode == 200){
     String reply = await response.transform(utf8.decoder).join();
     var jdata = jsonDecode(reply);
+    print(reply);
     var data = jdata['data'];
     for(var details in data){
       String id = details['id'];
@@ -67,6 +69,7 @@ Future<List> getSliderImage() async {
       );*/
 
       sList.add(image);
+      print(sList);
     }
 
   }
